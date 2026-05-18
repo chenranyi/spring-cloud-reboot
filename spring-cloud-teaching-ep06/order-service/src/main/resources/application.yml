@@ -1,0 +1,25 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8858
+        port: 8719
+      eager: true
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 3000
+            readTimeout: 5000
+
+feign:
+  sentinel:
+    enabled: true
+
+logging:
+  level:
+    com.teaching: DEBUG
+    com.teaching.order.client: DEBUG

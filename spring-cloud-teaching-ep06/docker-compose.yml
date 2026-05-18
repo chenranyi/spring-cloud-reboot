@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: nacos-teaching
+    environment:
+      MODE: standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    restart: always
+
+  sentinel:
+    image: bladex/sentinel-dashboard:1.8.6
+    container_name: sentinel-teaching
+    ports:
+      - "8858:8858"
+    environment:
+      - AUTH_USERNAME=sentinel
+      - AUTH_PASSWORD=sentinel
+    restart: always

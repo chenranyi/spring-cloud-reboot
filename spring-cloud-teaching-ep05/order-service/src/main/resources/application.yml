@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+logging:
+  level:
+    com.teaching: DEBUG
+    com.teaching.order.client: DEBUG
+
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 3000
+            readTimeout: 5000
