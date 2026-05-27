@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: teaching-config
+  namespace: teaching-cloud
+data:
+  NACOS_HOST: "nacos.teaching-cloud.svc.cluster.local"
+  DB_HOST: "mysql.teaching-cloud.svc.cluster.local"
+  SEATA_HOST: "seata-server.teaching-cloud.svc.cluster.local"
+  application.yml: |
+    spring:
+      cloud:
+        nacos:
+          discovery:
+            server-addr: nacos.teaching-cloud.svc.cluster.local:8848
+      datasource:
+        url: jdbc:mysql://mysql.teaching-cloud.svc.cluster.local:3306/order_db
+        username: root
+        password: ${DB_PASSWORD}

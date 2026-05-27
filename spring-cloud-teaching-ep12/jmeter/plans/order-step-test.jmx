@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="阶梯加压测试">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="base_url" elementType="Argument">
+            <stringProp name="Argument.name">base_url</stringProp>
+            <stringProp name="Argument.value">localhost:8080</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <kg.apc.jmeter.threads.ConcurrencyThreadGroup guiclass="kg.apc.jmeter.threads.ConcurrencyThreadGroupGui" testclass="kg.apc.jmeter.threads.ConcurrencyThreadGroup" testname="阶梯加压线程组">
+        <stringProp name="ThreadGroup.target_level">500</stringProp>
+        <stringProp name="ThreadGroup.ramp_up">60</stringProp>
+        <stringProp name="ThreadGroup.hold_load">120</stringProp>
+        <stringProp name="ThreadGroup.ramp_down">30</stringProp>
+      </kg.apc.jmeter.threads.ConcurrencyThreadGroup>
+      <hashTree>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP请求默认值">
+          <stringProp name="HTTPSampler.domain">${base_url}</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+        </ConfigTestElement>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="创建订单">
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <stringProp name="HTTPSampler.path">/api/order/create</stringProp>
+          <stringProp name="HTTPSampler.body">{"userId":1,"productId":100,"quantity":2,"amount":198}</stringProp>
+        </HTTPSamplerProxy>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: seata-server
+  namespace: teaching-cloud
+spec:
+  selector:
+    app: seata-server
+  ports:
+  - name: grpc
+    port: 8091
+    targetPort: 8091
+  - name: http
+    port: 7091
+    targetPort: 7091
+  type: ClusterIP

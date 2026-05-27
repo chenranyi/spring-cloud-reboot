@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: teaching-ingress
+  namespace: teaching-cloud
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: api.teaching.com
+    http:
+      paths:
+      - path: /api/order
+        pathType: Prefix
+        backend:
+          service:
+            name: order-service
+            port:
+              number: 8081
+      - path: /api/stock
+        pathType: Prefix
+        backend:
+          service:
+            name: stock-service
+            port:
+              number: 8082
+      - path: /api/point
+        pathType: Prefix
+        backend:
+          service:
+            name: point-service
+            port:
+              number: 8083

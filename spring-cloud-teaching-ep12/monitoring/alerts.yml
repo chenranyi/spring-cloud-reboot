@@ -1,0 +1,38 @@
+groups:
+  - name: performance_alerts
+    rules:
+      # 高并发告警
+      - alert: HighQPS
+        expr: sum(rate(http_server_requests_seconds_count[1m])) > 3000
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "QPS 过高"
+
+      # 慢响应告警
+      - alert: SlowResponse
+        expr: histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket[5m])) by (le)) > 1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "P99 响应时间超过 1 秒"
+
+      # 高 CPU 告警
+      - alert: HighCPU
+        expr: sum(rate(container_cpu_usage_seconds_total[1m])) > 0.8
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU 使用率超过 80%"
+
+      # 高内存告警
+      - alert: HighMemory
+        expr: sum(jvm_memory_used_bytes{area="heap"}) / sum(jvm_memory_max_bytes{area="heap"}) > 0.85
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "堆内存使用率超过 85%"

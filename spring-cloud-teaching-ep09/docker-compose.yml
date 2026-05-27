@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-teaching
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    networks:
+      - teaching-network
+
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: nacos-teaching
+    environment:
+      MODE: standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      - mysql
+    networks:
+      - teaching-network
+
+  seata-server:
+    image: seataio/seata-server:1.7.0
+    container_name: seata-teaching
+    ports:
+      - "8091:8091"
+      - "7091:7091"
+    environment:
+      - SEATA_IP=seata-teaching
+      - SEATA_PORT=8091
+      - STORE_MODE=file
+    networks:
+      - teaching-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus-teaching
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - teaching-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-teaching
+    ports:
+      - "3000:3000"
+   

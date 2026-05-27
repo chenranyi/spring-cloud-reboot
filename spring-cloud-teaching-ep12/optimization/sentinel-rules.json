@@ -1,0 +1,23 @@
+[
+  {
+    "resource": "order:create",
+    "limitApp": "default",
+    "grade": 1,
+    "count": 1000,
+    "strategy": 0,
+    "controlBehavior": 0,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 500,
+    "clusterMode": false
+  },
+  {
+    "resource": "order:query",
+    "limitApp": "default",
+    "grade": 1,
+    "count": 2000,
+    "strategy": 0,
+    "controlBehavior": 0,
+    "warmUpPeriodSec": 5,
+    "maxQueueingTimeMs": 200
+  }
+]

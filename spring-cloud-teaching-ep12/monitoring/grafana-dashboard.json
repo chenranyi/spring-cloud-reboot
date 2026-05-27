@@ -1,0 +1,43 @@
+{
+  "dashboard": {
+    "title": "微服务性能监控",
+    "panels": [
+      {
+        "title": "QPS",
+        "targets": [
+          {
+            "expr": "sum(rate(http_server_requests_seconds_count[1m]))",
+            "legendFormat": "QPS"
+          }
+        ]
+      },
+      {
+        "title": "P99 响应时间",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket[5m])) by (le))",
+            "legendFormat": "P99"
+          }
+        ]
+      },
+      {
+        "title": "错误率",
+        "targets": [
+          {
+            "expr": "sum(rate(http_server_requests_seconds_count{status=~\"5..\"}[1m])) / sum(rate(http_server_requests_seconds_count[1m]))",
+            "legendFormat": "错误率"
+          }
+        ]
+      },
+      {
+        "title": "JVM 内存",
+        "targets": [
+          {
+            "expr": "sum(jvm_memory_used_bytes{area=\"heap\"})",
+            "legendFormat": "已用内存"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-teaching
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: order_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    networks:
+      - teaching-network
+
+  # Nacos
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: nacos-teaching
+    environment:
+      MODE: standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      - mysql
+    networks:
+      - teaching-network
+
+  # Seata Server
+  seata-server:
+    image: seataio/seata-server:1.7.0
+    container_name: seata-teaching
+    ports:
+      - "8091:8091"
+      - "7091:7091"
+    environment:
+      - SEATA_IP=seata-teaching
+      - SEATA_PORT=8091
+      - STORE_MODE=file
+    networks:
+      - teaching-network
+
+networks:
+  teaching-network:
+    driver: bridge

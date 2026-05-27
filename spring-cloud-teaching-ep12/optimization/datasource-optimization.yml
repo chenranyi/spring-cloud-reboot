@@ -1,0 +1,40 @@
+# ============================================================
+# HikariCP 连接池调优配置
+# ============================================================
+
+# 调优前配置
+# ============================================================
+# spring:
+#   datasource:
+#     hikari:
+#       maximum-pool-size: 10
+
+# 调优后配置
+# ============================================================
+spring:
+  datasource:
+    hikari:
+      # 核心参数
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      
+      # 监控参数
+      leak-detection-threshold: 60000
+      
+      # 连接测试
+      validation-timeout: 5000
+      connection-test-query: SELECT 1
+      
+      # 其他优化
+      register-mbeans: true
+      allow-pool-suspension: false
+
+# 监控 SQL
+# ============================================================
+logging:
+  level:
+    com.zaxxer.hikari: DEBUG
+    com.zaxxer.hikari.pool.HikariPool: DEBUG

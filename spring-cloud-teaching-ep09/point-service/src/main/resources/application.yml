@@ -1,0 +1,45 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: point-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/point_db
+    username: root
+    password: root123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+seata:
+  enabled: true
+  application-id: point-service
+  tx-service-group: teaching_tx_group
+  service:
+    vgroup-mapping:
+      teaching_tx_group: default
+    grouplist:
+      default: 127.0.0.1:8091
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    com.teaching: DEBUG

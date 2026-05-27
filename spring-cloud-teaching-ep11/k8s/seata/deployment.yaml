@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seata-server
+  namespace: teaching-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seata-server
+  template:
+    metadata:
+      labels:
+        app: seata-server
+    spec:
+      containers:
+      - name: seata-server
+        image: seataio/seata-server:1.7.0
+        ports:
+        - containerPort: 8091
+        - containerPort: 7091
+        env:
+        - name: SEATA_IP
+          value: "seata-server"
+        - name: SEATA_PORT
+          value: "8091"
+        - name: STORE_MODE
+          value: "file"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

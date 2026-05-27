@@ -1,0 +1,23 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:mysql://mysql.teaching-cloud.svc.cluster.local:3306/stock_db
+    username: root
+    password: ${DB_PASSWORD}
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.teaching-cloud.svc.cluster.local:8848
+
+seata:
+  service:
+    grouplist:
+      default: seata-server.teaching-cloud.svc.cluster.local:8091
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
